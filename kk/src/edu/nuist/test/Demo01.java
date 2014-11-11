@@ -1,12 +1,12 @@
 package edu.nuist.test;
 
-import edu.nuist.knowledge.Knowledge;
-import edu.nuist.util.DBConn;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+
+import edu.nuist.knowledge.Knowledge;
+import edu.nuist.util.DBConn;
 
 public class Demo01{
 	public static void main(String args[]) throws SQLException{

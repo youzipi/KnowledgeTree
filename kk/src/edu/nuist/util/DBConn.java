@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public class DBConn {
 	
-	private static String url="jdbc:mysql://localhost/test"; 			//数据库地址    
+	private static String url="jdbc:mysql://localhost/infotree"; 			//数据库地址
 	private static String userName="root"; 								// 用户名    
-	private static String password="wang"; 								// 密码
+	private static String password="123456"; 								// 密码
 	private static Connection con=null;
 	
 	public DBConn() throws SQLException{

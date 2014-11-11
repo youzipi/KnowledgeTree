@@ -33,7 +33,7 @@ public class Test extends HttpServlet {
 				Knowledge know1=KnowledgeDBHelper.getKnowById(str);
 				jObject.put("id", know1.getId());
 				jObject.put("name", know1.getName());
-				jObject.put("content", know1.getContent());
+				jObject.put("content", know1.getContent());	
 				jsonArray.add(jObject);
 			}
 			out.print(jsonArray);
