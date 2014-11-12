@@ -1,12 +1,11 @@
 package edu.nuist.knowledge;
 
+import edu.nuist.util.DBConn;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
-
-import edu.nuist.knowledge.Knowledge;
-import edu.nuist.util.DBConn;
 
 public class KnowledgeDBHelper {
 	@SuppressWarnings("null")
@@ -110,6 +109,7 @@ public class KnowledgeDBHelper {
 				+"where father_id='"+know_old.getFather_id()+"'";
 		stmt.executeUpdate(updatesql);
 	}
+    //最顶层
 	public static LinkedList getKnowledge() throws SQLException{
 		DBConn dbconn = new DBConn();
 		Statement stmt = dbconn.getConn().createStatement();

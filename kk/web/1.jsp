@@ -16,6 +16,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Knowledge tree</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 <style>
 li {
 	cursor: hand;}
@@ -25,6 +26,7 @@ li {
 <script>
 	$(function() {
         var i =1;
+
         $("ul li span").live('click',function(){
             if(typeof($(this).attr("clicked"))=="undefined") {   //未生成子节点
                 var id = $(this).parent().attr("id");
@@ -34,6 +36,7 @@ li {
                     data: {'id': id},
                     dataType: 'json',
                     success: function (json) {
+                        //$("#" + id).append("<ul class='nav nav-list tree'></ul>");
                         $("#" + id).append("<ul></ul>");
                         for (var i = 0; i < json.length; i++) {
                             $("#" + id + " ul").append("<li id=" + json[i].id + ">" + "</li>");
@@ -65,9 +68,30 @@ li {
 
 		});
 	})
+    function demo_create() {
+        var ref = $('#jstree_demo').jstree(true),
+                sel = ref.get_selected();
+        if(!sel.length) { return false; }
+        sel = sel[0];
+        sel = ref.create_node(sel, {"type":"file"});
+        if(sel) {
+            ref.edit(sel);
+        }
+    };
+
 </script>
 </head>
 <body>
+<div class="col-md-4 col-sm-8 col-xs-8">
+    <button type="button" class="btn btn-success btn-sm" onclick="demo_create();">Create</button>
+    <button type="button" class="btn btn-warning btn-sm" onclick="demo_rename();">Rename</button>
+    <button type="button" class="btn btn-danger btn-sm" onclick="demo_delete();">Delete</button>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div>
 	<ul>
 		<%
 			LinkedList l = knowhelper.getKnowledge();
@@ -82,5 +106,6 @@ li {
 			}
 		%>
 	</ul>
+</div>
 </body>
 </html>

@@ -36,7 +36,7 @@ public class KnowledgeDBHelperTest {
 		KnowledgeDBHelper.save(know1);
 //		Knowledge know2=KnowledgeDBHelper.getKnowById(know1.getId());
 //		assertEquals(know1.getId(),know2.getId());
-		//����һ�β����֪ʶ���id��Ϊ��һ��֪ʶ��ĸ���
+
 		Knowledge know2=new Knowledge(know1.getId(),"css","hello css");
 		KnowledgeDBHelper.save(know2);
 		assertEquals(know2.getFather_id(),know1.getId());

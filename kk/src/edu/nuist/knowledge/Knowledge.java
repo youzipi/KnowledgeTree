@@ -1,15 +1,16 @@
 package edu.nuist.knowledge;
-import java.util.LinkedList;
-
 import edu.nuist.util.UUIDGenerator;
+
+import java.util.LinkedList;
 
 public  class Knowledge {
 	private String father_id=null;
 	private String id;
 	private String name;
 	private String content;	
-	public static LinkedList<String> lList=new <String>LinkedList();
-	
+	//public static LinkedList<String> lList=new <String>LinkedList();
+	public static LinkedList<String> lList=new LinkedList();
+
 	public Knowledge(String father_id,String name,String content){
 		this.father_id=father_id;
 		this.id = new UUIDGenerator().getUUID();
