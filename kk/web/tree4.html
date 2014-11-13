@@ -25,8 +25,12 @@
                 url:"http://localhost:8080/InitTree",
                 autoParam:["id","pId","name"],
                 otherParam:{},
-                dataFilter: null
-                //dataFilter: filter
+                dataFilter: null,
+                dataFilter: filter
+            },
+            callback: {
+                //beforeClick:beforeClick,
+                onClick: onClick
             }
         };
 
@@ -35,8 +39,26 @@
             if (!childNodes) return null;
             for (var i=0, l=childNodes.length; i<l; i++) {
                 childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+                childNodes[i].icon = "css/zTreeStyle/img/diy/8.png";
             }
             return childNodes;
+        }
+
+        var className = "dark";
+        function beforeClick(treeId, treeNode, clickFlag) {
+            className = (className === "dark" ? "":"dark");
+            console.log("[ "+getTime()+" beforeClick ]=" + treeNode.id );
+            return (treeNode.click != false);
+        }
+        function onClick(event, treeId, treeNode, clickFlag) {
+            console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
+        }
+        function getTime() {
+            var now= new Date(),
+                    h=now.getHours(),
+                    m=now.getMinutes(),
+                    s=now.getSeconds();
+            return (h+":"+m+":"+s);
         }
 
         $(document).ready(function(){
