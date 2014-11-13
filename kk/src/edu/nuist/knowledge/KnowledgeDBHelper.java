@@ -1,5 +1,6 @@
 package edu.nuist.knowledge;
 
+import edu.nuist.util.DB;
 import edu.nuist.util.DBConn;
 
 import java.sql.ResultSet;
@@ -36,11 +37,24 @@ public class KnowledgeDBHelper {
 //		return know;
 //	}
 	public static Knowledge getKnowById(String id) throws SQLException{
-		DBConn dbconn = new DBConn();
-		Statement stmt = dbconn.getConn().createStatement();
+		//DBConn dbconn = new DBConn();
+		//Statement stmt = dbconn.getConn().createStatement();
+        DB db = new DB();
+
 		String sql1="select * from knowledge_desc where id='"+id+"'";
-		String sql2="select * from knowledge_relation where father_id='"+id+"'";
-		ResultSet rs1 = stmt.executeQuery(sql1);	
+        //String sql2="select * from knowledge_relation where father_id='"+id+"'";
+        String sql2="select * from knowledge_relation where father_id='"+id+"'";
+        String sql3="select * from knowledge_relation where id_sub='"+id+"'";
+
+        //System.out.println(sql1);
+        //System.out.println(sql2);
+        //System.out.println(sql3);
+
+        ResultSet rs1 = db.getrs(sql1);
+        ResultSet rs2 = db.getrs(sql2);
+        ResultSet rs3 = db.getrs(sql3);
+
+
 		LinkedList<String> lList = new LinkedList<String>();
 		Knowledge know=null;
 		while(rs1.next()){
@@ -50,14 +64,22 @@ public class KnowledgeDBHelper {
 			know.setContent(rs1.getString("content"));
 		}
 		rs1.last();
-		ResultSet rs2=stmt.executeQuery(sql2);
-		while(rs2.next()){
-			know.setFather_id(rs2.getString("father_id"));
+		//ResultSet rs2=stmt.executeQuery(sql2);
+        while(rs2.next()){
+            //String father_id = rs2.getString("father_id");
+			//know.setFather_id(father_id);
 			lList.add(rs2.getString("id_sub"));
 		}
 		rs2.last();
+        while(rs3.next()){
+            //System.out.println("father_id="+rs3.getString("father_id"));
+            know.setFather_id(rs3.getString("father_id"));
+        }
+        rs3.last();
+        db.closed();
+
 		if(know!=null){
-		know.setlList(lList);	
+		know.setlList(lList);
 		return know;
 		}
 		return null;
@@ -122,4 +144,14 @@ public class KnowledgeDBHelper {
 		}
 		return l;
 	}
+
+    public static void main(String[] args) throws SQLException {
+        KnowledgeDBHelper k = new KnowledgeDBHelper();
+        System.out.println("root_id="+k.getKnowledge());
+        Knowledge know = k.getKnowById("1");
+        System.out.println("father_id="+know.getFather_id());
+        System.out.println("id="+know.getId());
+        System.out.println("name="+know.getName());
+        System.out.println("sub_id="+know.getlList());
+    }
 }

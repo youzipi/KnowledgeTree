@@ -12,9 +12,18 @@
         <servlet-mapping>  
        <servlet-name>Test</servlet-name>  
        <url-pattern>/Test</url-pattern>  
-    </servlet-mapping>   
-   
-  <welcome-file-list>
+    </servlet-mapping>
+    <display-name></display-name>
+    <servlet>
+        <servlet-name>InitTree</servlet-name>
+        <servlet-class>InitTree</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InitTree</servlet-name>
+        <url-pattern>/InitTree</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
 </web-app>

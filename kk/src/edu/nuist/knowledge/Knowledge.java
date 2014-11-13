@@ -4,7 +4,8 @@ import edu.nuist.util.UUIDGenerator;
 import java.util.LinkedList;
 
 public  class Knowledge {
-	private String father_id=null;
+	private String father_id;
+	//private String father_id;
 	private String id;
 	private String name;
 	private String content;	

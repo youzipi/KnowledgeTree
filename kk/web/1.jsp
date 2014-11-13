@@ -21,12 +21,21 @@
 li {
 	cursor: hand;}
 </style>
-<script src="js/jquery.js" type="text/javascript">
-</script>
+    <script src="js/jquery.js" type="text/javascript"></script>
+
 <script>
+    function del(){
+        if(confirm("确认删除吗")){
+            alert("yes");
+        }
+        else{
+            alert("no");
+            return true;
+        }
+    }
+
 	$(function() {
         var i =1;
-
         $("ul li span").live('click',function(){
             if(typeof($(this).attr("clicked"))=="undefined") {   //未生成子节点
                 var id = $(this).parent().attr("id");

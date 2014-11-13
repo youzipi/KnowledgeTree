@@ -3,6 +3,7 @@
     <link href="css/themes/default/style.min.css" rel="stylesheet">
     <script src="js/jquery.js" type="text/javascript"></script>
 
+
     <script src="js/jstree.js" type="text/javascript"></script>
     <script>
         $(function() {
@@ -12,11 +13,9 @@
             });
             var i =1;
             $("ul li span").live('click',function(){
-                //console.log(this.attr("clicked"));
-                //if(1){
+
                 if(typeof($(this).attr("clicked"))=="undefined"){   //未生成子节点
                     $(this).after("<ul><li><span>tt</span></li></ul>");
-                    //alert("hello");
                     $(this).attr("clicked","1");
                     console.log("created");
                 }
