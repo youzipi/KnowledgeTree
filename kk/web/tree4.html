@@ -12,14 +12,24 @@
     <SCRIPT type="text/javascript">
         <!--
         var setting = {
+            data : {
+                simpleData: {
+                    enable: true,//true / false 分别表示 使用 / 不使用 简单数据模式
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+                }
+            },
             async: {
                 enable: true,
                 url:"http://localhost:8080/InitTree",
-                autoParam:["id", "name=n", "level=lv"],
-                otherParam:{"otherParam":"zTreeAsyncTest"},
-                dataFilter: filter
+                autoParam:["id","pId","name"],
+                otherParam:{},
+                dataFilter: null
+                //dataFilter: filter
             }
         };
+
 
         function filter(treeId, parentNode, childNodes) {
             if (!childNodes) return null;
@@ -31,6 +41,7 @@
 
         $(document).ready(function(){
             $.fn.zTree.init($("#treeDemo"), setting);
+            console.log("tt");
         });
         //-->
     </SCRIPT>

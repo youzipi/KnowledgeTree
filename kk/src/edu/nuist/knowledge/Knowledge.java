@@ -10,16 +10,18 @@ public  class Knowledge {
 	private String name;
 	private String content;	
 	//public static LinkedList<String> lList=new <String>LinkedList();
-	public static LinkedList<String> lList=new LinkedList();
+	//public static LinkedList<String> lList=new LinkedList();
+	public static LinkedList<String> lList=new LinkedList<String>();
 
 	public Knowledge(String father_id,String name,String content){
 		this.father_id=father_id;
-		this.id = new UUIDGenerator().getUUID();
+		this.id = UUIDGenerator.getUUID();
 		this.name = name;
 		this.content = content;
 	}
 	public Knowledge(String name, String content) {
-		this.id = new UUIDGenerator().getUUID();
+		//this.id = new UUIDGenerator().getUUID();
+		this.id = UUIDGenerator.getUUID();
 		this.name = name;
 		this.content = content;
 	}
