@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+       <link href="css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body{
+        min-width: 680px;
+        }
+        .col-xs-4{
+            background-color: #e6f3f6;
+            height: 600px;
+        }
+        .col-xs-8{
+            background-color: #6abac9;
+            height: 600px;
+        }
+        .form-group{
+            padding-right: 20px;
+        }
+        ul.ztree{
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+        }
+    </style>
+        <!--<link rel="stylesheet" href="css/demo.css" type="text/css">-->
+        <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.ztree.all-3.5.min.js"></script>
+        <!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck-3.5.js"></script>
+                                                                                             <script type="text/javascript" src="../../../js/jquery.ztree.exedit-3.5.js"></script>-->
+        <script type="text/javascript">
+        <!--
+        var setting = {
+        data : {
+            simpleData: {
+                enable: true,//true / false 分别表示 使用 / 不使用 简单数据模式
+                idKey: "id",
+                pIdKey: "pId",
+                rootPId: 0
+            }
+        },
+        async: {
+        enable: true,
+        url:"http://localhost:8080/InitTree",
+        autoParam:["id","pId","name"],
+        otherParam:{},
+        //dataFilter: null,
+        dataFilter: filter
+        },
+        callback: {
+        //beforeClick:beforeClick,
+        onClick: onClick
+        }
+        };
+
+
+        function filter(treeId, parentNode, childNodes) {
+            if (!childNodes) return null;
+            for (var i=0, l=childNodes.length; i<l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+            childNodes[i].icon = "css/zTreeStyle/img/diy/8.png";
+        }
+        return childNodes;
+        }
+
+
+        var className = "dark";
+
+        function getNodeInfo(id){
+            $.post("http://localhost:8080/doNode",{id:id},
+                    function(node){
+                        //alert(node);
+                        console.log(node);
+                        $(".nameedit").val(node.name);
+                        $(".contentedit").val(node.content);
+                    },"json");
+        }
+        function onClick(event, treeId, treeNode, clickFlag) {
+            getNodeInfo(treeNode.id);
+            console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
+            //$(".nameedit").load("http://localhost:8080/doNode",{id:treeNode.id});
+
+        }
+        function getTime() {
+            var now= new Date(),
+            h=now.getHours(),
+            m=now.getMinutes(),
+            s=now.getSeconds();
+            return (h+":"+m+":"+s);
+        }
+
+        $(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting);
+            console.log("tt");
+            $("#submit")
+        });
+        //-->
+        </script>
+        
+
+</head>
+<body>
+<div class="row">
+    <div class="col-xs-4">
+            <ul id="treeDemo" class="ztree"></ul>
+    </div>
+    <div class="col-xs-8">
+       <form role="form">
+        <div class="form-group">
+            <label for="">Name</label>
+            <input type="text" class="form-control nameedit" placeholder="Name">
+        </div>
+        <div class="form-group">
+            <label for="">Content</label>
+            <textarea type="text" class="form-control contentedit" rows="10" placeholder="Content"></textarea>
+        </div>
+        <button type="submit" id="submit" class="btn btn-default">Submit</button>
+        <button type="submit" id="cancel" class="btn btn-default">Cancel</button>
+        </form>
+    </div>
+    
+</div>
+
+
+</body>
+</html>

@@ -22,6 +22,14 @@
         <servlet-name>InitTree</servlet-name>
         <url-pattern>/InitTree</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>doNode</servlet-name>
+        <servlet-class>doNode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>doNode</servlet-name>
+        <url-pattern>/doNode</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
