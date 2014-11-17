@@ -96,15 +96,25 @@ public class KnowledgeDBHelper {
         return num1+num2;
 	}
 
-	public static void delete(String id) throws SQLException {
-		DBConn dbconn = new DBConn();
-		Statement stmt = dbconn.getConn().createStatement();
+	public static boolean delete(String id) throws SQLException {
+        DB db = new DB();
+
+        boolean ok1;
+        boolean ok2;
 		Knowledge know = getKnowById(id);
-		String deletesql1 = "delete from knowledge_desc where id='" + id + "'";
-		String deletesql2 = "delete from knowledge_relation where father_id='"
+		String sql1 = "delete from knowledge_desc where id='" + id + "'";
+		String sql2 = "delete from knowledge_relation where id_sub='"
 				+ id + "'";
-		stmt.executeUpdate(deletesql1);
-		stmt.executeUpdate(deletesql2);
+        System.out.println(sql1);
+        System.out.println(sql2);
+        System.out.println(db.delete(sql1));
+		ok1 = db.delete(sql1);
+		ok2 = db.delete(sql2);
+        System.out.println("ok1="+ok1);
+        System.out.println("ok1="+ok2);
+        System.out.println("ok1 && ok2="+(ok1 && ok2));
+        return (ok1 && ok2);
+
 	}
 	public static void move(Knowledge know_new,Knowledge know_old)throws SQLException{
 		DBConn dbconn = new DBConn();

@@ -46,6 +46,14 @@
         <servlet-name>addNode</servlet-name>
         <url-pattern>/addNode</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>removeNode</servlet-name>
+        <servlet-class>removeNode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>removeNode</servlet-name>
+        <url-pattern>/removeNode</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

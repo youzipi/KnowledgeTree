@@ -33,7 +33,6 @@
         <!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck-3.5.js"></script>
                                                                                              <script type="text/javascript" src="../../../js/jquery.ztree.exedit-3.5.js"></script>-->
         <script type="text/javascript">
-        <!--
         var setting = {
             view: {
                 addHoverDom: addHoverDom,
@@ -64,6 +63,7 @@
             callback: {
                 onClick: onClick,
                 beforeRemove: beforeRemove,
+                onRemove: onRemove,
                 beforeRename: beforeRename
             }
         };
@@ -94,9 +94,7 @@
                     $(".contentedit").val(node.content);
                 }
             });
-
         }
-
         function setNodeInfo(id,name,content){
             console.log("setNodeInfo:"+id);
             $.ajax({
@@ -120,6 +118,34 @@
             zTree.selectNode(treeNode);
             return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
         }
+        function onRemove(e, treeId, treeNode) {
+
+            console.log("onRemove=" + treeNode.name);
+            id = treeNode.id;
+            console.log("Node.id" + id);
+            console.log("Node.isParent" + treeNode.isParent);
+            if(treeNode.isParent){
+                return false;
+            }
+            else{
+                $.ajax({
+                    url: "/removeNode",
+                    type: "POST",
+                    data: {id:id},
+                    //dataType: 'json',
+                    success: function (num) {
+                        console.log("num="+num);
+                        //console.log(num);
+                        if(num== 1){
+                            console.log("num="+num+",success");
+                            //$("strong").text("success");
+                        }
+                    }
+                });
+            }
+
+
+        }
         function beforeRename(treeId, treeNode, newName) {
             if (newName.length == 0) {
                 alert("节点名称不能为空.");
@@ -131,8 +157,6 @@
         var newCount = 1;
         function addHoverDom(treeId, treeNode) {
             var sObj = $("#" + treeNode.tId + "_span");
-            //console.log("addHoverDom");
-            //console.log(sObj);
             if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
             var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
                     + "' title='add node' onfocus='this.blur();'></span>";
@@ -148,14 +172,13 @@
                 $.ajax({
                     url: "/addNode",
                     type: "POST",
-                    data: {pId:treeNode.id,name:"noooode" + (newCount++)},
+                    data: {pId:treeNode.id,name:"unname" + (newCount++)},
                     //dataType: 'json',
                     success: function (num) {
                         console.log("num="+num);
-                        //console.log(num);
                         if(num== 2){
                             console.log("num="+num+",success");
-                            zTree.addNodes(treeNode, {pId:treeNode.id, name:"noooode" + (newCount++)});
+                            zTree.addNodes(treeNode, {pId:treeNode.id, name:"unname" + (newCount++)});
                         }
                     }
                 });
@@ -169,13 +192,6 @@
             getNodeInfo(treeNode.id);
             //console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
         }
-        function getTime() {
-            var now= new Date(),
-            h=now.getHours(),
-            m=now.getMinutes(),
-            s=now.getSeconds();
-            return (h+":"+m+":"+s);
-        }
 
         $(document).ready(function(){
             $.fn.zTree.init($("#treeDemo"), setting);
@@ -185,9 +201,6 @@
                         var id = $(".idedit").val(),
                         name = $(".nameedit").val(),
                         content = $(".contentedit").val();
-                        //console.log($(".nameedit").val());
-                        //console.log($(".contentedit").val());
-                        //console.log($(".idedit").val());
                         setNodeInfo(id,name,content);
                     }
             );
@@ -197,10 +210,7 @@
                     }
             )
         });
-        //-->
         </script>
-        
-
 </head>
 <body>
 <div class="row">

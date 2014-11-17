@@ -1,5 +1,3 @@
-
-import edu.nuist.knowledge.Knowledge;
 import edu.nuist.knowledge.KnowledgeDBHelper;
 
 import javax.servlet.ServletException;
@@ -14,20 +12,19 @@ import java.sql.SQLException;
  * project_name:kk
  * package_name:PACKAGE_NAME
  * user: youzipi
- * date: 2014/11/17 15:23
+ * date: 2014/11/17 16:27
  */
-public class addNode extends HttpServlet {
+public class removeNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
-        String name = request.getParameter("name");
-        String pId = request.getParameter("pId");
+        String id = request.getParameter("id");
 
         int num;
         PrintWriter out = response.getWriter();
-        System.out.println("add_node");
-        num = createNode(name, pId);
+        System.out.println("delete_node");
+        num = deleteNode(id);
         System.out.println("num="+num);
         out.print(num);
     }
@@ -37,12 +34,11 @@ public class addNode extends HttpServlet {
         doPost(req, resp);
     }
 
-    public int createNode(String name,String pId) {
+    public int deleteNode(String id) {
         try {
-            Knowledge know = new Knowledge(pId,name,"");
-            System.out.println("newNode.id="+know.getId());
-            int num = KnowledgeDBHelper.insert(know);
-            return num;
+            boolean ok = KnowledgeDBHelper.delete(id);
+            if(ok)
+                return 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -50,8 +46,8 @@ public class addNode extends HttpServlet {
     }
 
     public static void main(String[] args) {
-        addNode test = new addNode();
-        test.createNode("name","pId");
+        removeNode test = new removeNode();
+        test.deleteNode("id");
     }
 }
 

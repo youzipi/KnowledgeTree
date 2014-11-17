@@ -85,6 +85,7 @@ public class DB {
         try{
             stmt=getStmed();
             ok=stmt.execute(sql);
+            //System.out.println("okkkk="+ok);
             return true;
         }catch(SQLException e){e.printStackTrace();}
         return false;
