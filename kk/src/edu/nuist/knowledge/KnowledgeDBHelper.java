@@ -100,6 +100,14 @@ public class KnowledgeDBHelper {
 		}
 		return lList;
 	}
+    public static int update(Knowledge know)throws SQLException{
+        DB db = new DB();
+        String sql = "update knowledge_desc set name=\""+know.getName()+"\", content=\""+know.getContent()+"\" where id=\""+know.getId()+"\"";
+        System.out.println(sql);
+        int num = db.update(sql);
+        System.out.println(num);
+        return num;
+    }
 
 	public static void save(Knowledge know) throws SQLException {
 		DBConn dbconn = new DBConn();
@@ -153,5 +161,11 @@ public class KnowledgeDBHelper {
         System.out.println("id="+know.getId());
         System.out.println("name="+know.getName());
         System.out.println("sub_id="+know.getlList());
+
+        k.update(know);
     }
+
+
+
+
 }

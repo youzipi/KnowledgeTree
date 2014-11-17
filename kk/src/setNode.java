@@ -1,6 +1,5 @@
 import edu.nuist.knowledge.Knowledge;
 import edu.nuist.knowledge.KnowledgeDBHelper;
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -17,26 +16,21 @@ import java.sql.SQLException;
  * user: youzipi
  * date: 2014/11/16 17:57
  */
-public class doNode extends HttpServlet {
+public class setNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
         String id = request.getParameter("id");
-        System.out.println("name"+request.getParameter("name"));
-        System.out.println("id="+id);
-        //JSONArray node;
-        JSONObject node;
-        //System.out.println("null".equals(id));
-        //System.out.println(id == null);
+        String name = request.getParameter("name");
+        String content = request.getParameter("content");
 
-            System.out.println("get_node");
-            node = getNodeInfo(id);
-
+        int num;
         PrintWriter out = response.getWriter();
-        //System.out.println(node);
-        out.print(node);
-        //out.print("node");
+        System.out.println("set_node");
+        num = setNodeInfo(id, name, content);
+        System.out.println("num="+num);
+        out.print(num);
     }
 
     @Override
@@ -44,25 +38,23 @@ public class doNode extends HttpServlet {
         doPost(req, resp);
     }
 
-    public JSONObject getNodeInfo(String id) {
+    public int setNodeInfo(String id,String name,String content) {
         JSONObject jObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
         try {
-            Knowledge know = KnowledgeDBHelper.getKnowById(id);
-            jObject.put("name", know.getName());
-            jObject.put("content", know.getContent());
-
-            jsonArray.add(jObject);
+            Knowledge know = new Knowledge();
+            know.setId(id);
+            know.setName(name);
+            know.setContent(content);
+            int num = KnowledgeDBHelper.update(know);
+            return num;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println(jsonArray);
-        //return jsonArray;
-        return jObject;
+        return -1;
     }
 
     public static void main(String[] args) {
-        doNode test = new doNode();
-        test.getNodeInfo("1");
+        setNode test = new setNode();
+        //test.setNodeInfo("1");
     }
 }

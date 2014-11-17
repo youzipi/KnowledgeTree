@@ -30,8 +30,9 @@ public class InitTree extends HttpServlet {
         response.setContentType("text/html");
 
         String id = request.getParameter("id");
-        System.out.println("name"+request.getParameter("name"));
-        System.out.println("iddddd="+id);
+        System.out.println("InitTree");
+        System.out.println("name="+request.getParameter("name"));
+        System.out.println("id="+id);
         JSONArray nodes;
         //System.out.println("null".equals(id));
         //System.out.println(id == null);

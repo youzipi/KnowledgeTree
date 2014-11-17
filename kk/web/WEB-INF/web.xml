@@ -23,12 +23,20 @@
         <url-pattern>/InitTree</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>doNode</servlet-name>
-        <servlet-class>doNode</servlet-class>
+        <servlet-name>getNode</servlet-name>
+        <servlet-class>getNode</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>doNode</servlet-name>
-        <url-pattern>/doNode</url-pattern>
+        <servlet-name>getNode</servlet-name>
+        <url-pattern>/getNode</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>setNode</servlet-name>
+        <servlet-class>setNode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>setNode</servlet-name>
+        <url-pattern>/setNode</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

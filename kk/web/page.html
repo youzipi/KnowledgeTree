@@ -35,26 +35,41 @@
         <script type="text/javascript">
         <!--
         var setting = {
-        data : {
-            simpleData: {
-                enable: true,//true / false 分别表示 使用 / 不使用 简单数据模式
-                idKey: "id",
-                pIdKey: "pId",
-                rootPId: 0
+            view: {
+                addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom,
+                selectedMulti: false
+            },
+            edit: {
+                enable: true,
+                editNameSelectAll: true,
+                showRemoveBtn: showRemoveBtn,
+                showRenameBtn: showRenameBtn
+            },
+            data : {
+                simpleData: {
+                    enable: true,//true / false 分别表示 使用 / 不使用 简单数据模式
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: 0
+                }
+            },
+            async: {
+                enable: true,
+                url:"http://localhost:8080/InitTree",
+                autoParam:["id","pId","name"],
+                otherParam:{},
+                dataFilter: filter
+            },
+            callback: {
+                onClick: onClick,
+                beforeDrag: beforeDrag,
+                beforeEditName: beforeEditName,
+                beforeRemove: beforeRemove,
+                beforeRename: beforeRename,
+                onRemove: onRemove,
+                onRename: onRename
             }
-        },
-        async: {
-        enable: true,
-        url:"http://localhost:8080/InitTree",
-        autoParam:["id","pId","name"],
-        otherParam:{},
-        //dataFilter: null,
-        dataFilter: filter
-        },
-        callback: {
-        //beforeClick:beforeClick,
-        onClick: onClick
-        }
         };
 
 
@@ -71,13 +86,53 @@
         var className = "dark";
 
         function getNodeInfo(id){
-            $.post("http://localhost:8080/doNode",{id:id},
-                    function(node){
-                        //alert(node);
-                        console.log(node);
-                        $(".nameedit").val(node.name);
-                        $(".contentedit").val(node.content);
-                    },"json");
+//            $.post("/getNode",{id:id},
+//                    function(node){
+//                        //alert(node);
+//                        console.log(node);
+//                        $(".idedit").val(node.id);
+//                        $(".nameedit").val(node.name);
+//                        $(".contentedit").val(node.content);
+//                    },"json");
+            $.ajax({
+                url: "/getNode",
+                type: "POST",
+                data: {id:id},
+                dataType: 'json',
+                success: function (node) {
+                    console.log(node);
+                    $(".idedit").val(node.id);
+                    $(".nameedit").val(node.name);
+                    $(".contentedit").val(node.content);
+                }
+            });
+
+        }
+
+        function setNodeInfo(id,name,content){
+            console.log("setNodeInfo:"+id);
+//            $.post("/setNode",{id:id,name:name,content:content},
+//                    function(node){
+//                        console.log(node);
+//                        if(node== 1){
+//                            console.log("num="+node+",success");
+//                        }
+//                    });
+            $.ajax({
+                url: "/setNode",
+                type: "POST",
+                data: {id:id,name:name,content:content},
+                //dataType: 'json',
+                success: function (num) {
+                    console.log("num="+num);
+                    //console.log(num);
+                    if(num== 1){
+                        console.log("num="+num+",success");
+                        $("strong").text("success");
+                    }
+                }
+            });
+            //getNodeInfo(id);
         }
         function onClick(event, treeId, treeNode, clickFlag) {
             getNodeInfo(treeNode.id);
@@ -96,7 +151,22 @@
         $(document).ready(function(){
             $.fn.zTree.init($("#treeDemo"), setting);
             console.log("tt");
-            $("#submit")
+            $("#submit").click(
+                    function() {
+                        var id = $(".idedit").val(),
+                        name = $(".nameedit").val(),
+                        content = $(".contentedit").val();
+                        //console.log($(".nameedit").val());
+                        //console.log($(".contentedit").val());
+                        //console.log($(".idedit").val());
+                        setNodeInfo(id,name,content);
+                    }
+            )
+            $("reset").click(
+                    function(){
+                        getNodeInfo($(".idedit").val());
+                    }
+            )
         });
         //-->
         </script>
@@ -118,13 +188,15 @@
             <label for="">Content</label>
             <textarea type="text" class="form-control contentedit" rows="10" placeholder="Content"></textarea>
         </div>
-        <button type="submit" id="submit" class="btn btn-default">Submit</button>
-        <button type="submit" id="cancel" class="btn btn-default">Cancel</button>
+           <div class="form-group">
+               <label for="">id</label>
+               <input type="text" class="form-control idedit" placeholder="id" disabled>
+           </div>
+        <button id="submit" class="btn btn-default">Submit</button>
+        <button id="reset" class="btn btn-default">Cancel</button>
+           <strong></strong>
         </form>
     </div>
-    
 </div>
-
-
 </body>
 </html>
