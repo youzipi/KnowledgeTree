@@ -10,39 +10,11 @@ import java.util.LinkedList;
 
 public class KnowledgeDBHelper {
 	@SuppressWarnings("null")
-//	public static Knowledge getKnowById(String id) throws SQLException {
-//		DBConn dbconn = new DBConn();
-//		Statement stmt = dbconn.getConn().createStatement();
-//		String sql = "select father_id,id,name,content,id_sub from knowledge_desc,knowledge_relation "
-//				+ "where knowledge_desc.id= '" + id + "'";
-//		ResultSet rs = stmt.executeQuery(sql);
-//		LinkedList<String> lList = new LinkedList<String>();
-//		Knowledge know  = null;
-//		int i = 1;
-//		while (rs.next()) {	
-//			if (i == 1) {
-//				know =new Knowledge();
-//				know.setFather_id(rs.getString("father_id"));
-//				know.setId(rs.getString("id"));
-//				know.setName(rs.getString("name"));
-//				know.setContent(rs.getString("content"));
-//				i--;
-//				lList.add(rs.getString("id_sub"));
-//			
-//			} else
-//				lList.add(rs.getString("id_sub"));
-//		}		
-//		if (know != null)
-//			know.setlList(lList);
-//		return know;
-//	}
+
 	public static Knowledge getKnowById(String id) throws SQLException{
-		//DBConn dbconn = new DBConn();
-		//Statement stmt = dbconn.getConn().createStatement();
         DB db = new DB();
 
 		String sql1="select * from knowledge_desc where id='"+id+"'";
-        //String sql2="select * from knowledge_relation where father_id='"+id+"'";
         String sql2="select * from knowledge_relation where father_id='"+id+"'";
         String sql3="select * from knowledge_relation where id_sub='"+id+"'";
 
@@ -64,23 +36,19 @@ public class KnowledgeDBHelper {
 			know.setContent(rs1.getString("content"));
 		}
 		rs1.last();
-		//ResultSet rs2=stmt.executeQuery(sql2);
         while(rs2.next()){
-            //String father_id = rs2.getString("father_id");
-			//know.setFather_id(father_id);
 			lList.add(rs2.getString("id_sub"));
 		}
 		rs2.last();
         while(rs3.next()){
-            //System.out.println("father_id="+rs3.getString("father_id"));
             know.setFather_id(rs3.getString("father_id"));
         }
         rs3.last();
         db.closed();
 
 		if(know!=null){
-		know.setlList(lList);
-		return know;
+		    know.setlList(lList);
+		    return know;
 		}
 		return null;
 	}
@@ -105,20 +73,27 @@ public class KnowledgeDBHelper {
         String sql = "update knowledge_desc set name=\""+know.getName()+"\", content=\""+know.getContent()+"\" where id=\""+know.getId()+"\"";
         System.out.println(sql);
         int num = db.update(sql);
+        db.closed();
         System.out.println(num);
         return num;
     }
 
-	public static void save(Knowledge know) throws SQLException {
-		DBConn dbconn = new DBConn();
-		Statement stmt = dbconn.getConn().createStatement();
-		String insertquery1 = "insert into knowledge_desc values('"
-				+ know.getId() + "','" + know.getName() + "','"
-				+ know.getContent() + "')";
-		stmt.executeUpdate(insertquery1);
-		String insertquery2 = "insert into knowledge_relation values('"
-				+ know.getFather_id() + "','" + know.getId() + "')";
-		stmt.executeUpdate(insertquery2);
+
+    public static int insert(Knowledge know) throws SQLException {
+        DB db = new DB();
+
+        String sql1 = "insert into knowledge_desc (id,name) values(\""+know.getId()+"\", \""+know.getName()+"\");";
+        String sql2 = "insert into knowledge_relation (father_id,id_sub) values(\""+know.getFather_id()+"\",\""+know.getId()+"\");";
+        System.out.println(sql1);
+        System.out.println(sql2);
+
+        int num1 = db.update(sql1);
+        int num2 = db.update(sql2);
+
+        db.closed();
+        System.out.println("num1="+num1);
+        System.out.println("num2="+num2);
+        return num1+num2;
 	}
 
 	public static void delete(String id) throws SQLException {

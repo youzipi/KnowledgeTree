@@ -38,6 +38,14 @@
         <servlet-name>setNode</servlet-name>
         <url-pattern>/setNode</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>addNode</servlet-name>
+        <servlet-class>addNode</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>addNode</servlet-name>
+        <url-pattern>/addNode</url-pattern>
+    </servlet-mapping>
 
     <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>

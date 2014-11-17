@@ -41,10 +41,10 @@
                 selectedMulti: false
             },
             edit: {
-                enable: true,
-                editNameSelectAll: true,
-                showRemoveBtn: showRemoveBtn,
-                showRenameBtn: showRenameBtn
+                enable: true
+                //editNameSelectAll: true,
+                //showRemoveBtn: showRemoveBtn,
+               // showRenameBtn: showRenameBtn
             },
             data : {
                 simpleData: {
@@ -56,19 +56,15 @@
             },
             async: {
                 enable: true,
-                url:"http://localhost:8080/InitTree",
+                url:"/InitTree",
                 autoParam:["id","pId","name"],
                 otherParam:{},
                 dataFilter: filter
             },
             callback: {
                 onClick: onClick,
-                beforeDrag: beforeDrag,
-                beforeEditName: beforeEditName,
                 beforeRemove: beforeRemove,
-                beforeRename: beforeRename,
-                onRemove: onRemove,
-                onRename: onRename
+                beforeRename: beforeRename
             }
         };
 
@@ -86,14 +82,6 @@
         var className = "dark";
 
         function getNodeInfo(id){
-//            $.post("/getNode",{id:id},
-//                    function(node){
-//                        //alert(node);
-//                        console.log(node);
-//                        $(".idedit").val(node.id);
-//                        $(".nameedit").val(node.name);
-//                        $(".contentedit").val(node.content);
-//                    },"json");
             $.ajax({
                 url: "/getNode",
                 type: "POST",
@@ -111,13 +99,6 @@
 
         function setNodeInfo(id,name,content){
             console.log("setNodeInfo:"+id);
-//            $.post("/setNode",{id:id,name:name,content:content},
-//                    function(node){
-//                        console.log(node);
-//                        if(node== 1){
-//                            console.log("num="+node+",success");
-//                        }
-//                    });
             $.ajax({
                 url: "/setNode",
                 type: "POST",
@@ -134,11 +115,59 @@
             });
             //getNodeInfo(id);
         }
+        function beforeRemove(treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.selectNode(treeNode);
+            return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
+        }
+        function beforeRename(treeId, treeNode, newName) {
+            if (newName.length == 0) {
+                alert("节点名称不能为空.");
+                return false;
+            }
+            return true;
+        }
+
+        var newCount = 1;
+        function addHoverDom(treeId, treeNode) {
+            var sObj = $("#" + treeNode.tId + "_span");
+            //console.log("addHoverDom");
+            //console.log(sObj);
+            if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+            var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+                    + "' title='add node' onfocus='this.blur();'></span>";
+            sObj.after(addStr);
+            var btn = $("#addBtn_"+treeNode.tId);
+            console.log("if(btn)="+!!btn);
+            if (btn) btn.bind("click", function(){
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                //newNode = zTree.addNodes(treeNode, {pId:treeNode.id, name:"noooode" + (newCount++)});
+                //console.log(zTree.addNodes(treeNode, {pId:treeNode.id, name:"noooode" + (newCount++)}));
+                //console.log("newNode.name="+newNode.name);
+                //console.log("newNode.pId="+newNode.pId);
+                $.ajax({
+                    url: "/addNode",
+                    type: "POST",
+                    data: {pId:treeNode.id,name:"noooode" + (newCount++)},
+                    //dataType: 'json',
+                    success: function (num) {
+                        console.log("num="+num);
+                        //console.log(num);
+                        if(num== 2){
+                            console.log("num="+num+",success");
+                            zTree.addNodes(treeNode, {pId:treeNode.id, name:"noooode" + (newCount++)});
+                        }
+                    }
+                });
+                return false;
+            });
+        }
+        function removeHoverDom(treeId, treeNode) {
+            $("#addBtn_"+treeNode.tId).unbind().remove();
+        }
         function onClick(event, treeId, treeNode, clickFlag) {
             getNodeInfo(treeNode.id);
-            console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
-            //$(".nameedit").load("http://localhost:8080/doNode",{id:treeNode.id});
-
+            //console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
         }
         function getTime() {
             var now= new Date(),
@@ -161,7 +190,7 @@
                         //console.log($(".idedit").val());
                         setNodeInfo(id,name,content);
                     }
-            )
+            );
             $("reset").click(
                     function(){
                         getNodeInfo($(".idedit").val());
