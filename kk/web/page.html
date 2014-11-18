@@ -82,7 +82,7 @@
         function onExpand(event, treeId, treeNode){
             var cookie = $.cookie("z_tree");
             console.log("cookie="+cookie);
-            console.log("cookie.length="+cookie.length);
+            //console.log("cookie.length="+cookie.length);
             var z_tree = null;
 
             if(cookie){
@@ -103,7 +103,7 @@
 //            node = tree.getNodeByParam('id','test');
 //            tree.expandNode(node,true);
 
-            $.cookie("z_tree", JSON.stringify(z_tree))
+            $.cookie("z_tree", JSON.stringify(z_tree));
             getcookie();
         }
 
@@ -259,8 +259,11 @@
                 for(var i=0;i<z_tree.length;i++){
                     //console.log("z_tree[i]="+z_tree[i]);
                     var node = tree.getNodeByParam('id',z_tree[i]);
+                    //console.log("node="+node.name);
                     //console.log("node="+node);
                     tree.expandNode(node,true)
+                    //console.log("expanding:node="+node.name);
+
                 }
             }
         }

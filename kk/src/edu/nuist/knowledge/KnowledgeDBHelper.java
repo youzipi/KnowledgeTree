@@ -23,8 +23,6 @@ public class KnowledgeDBHelper {
         //System.out.println(sql3);
 
         ResultSet rs1 = db.getrs(sql1);
-        ResultSet rs2 = db.getrs(sql2);
-        ResultSet rs3 = db.getrs(sql3);
 
 
 		LinkedList<String> lList = new LinkedList<String>();
@@ -36,15 +34,19 @@ public class KnowledgeDBHelper {
 			know.setContent(rs1.getString("content"));
 		}
 		rs1.last();
+
+        ResultSet rs2 = db.getrs(sql2);
         while(rs2.next()){
 			lList.add(rs2.getString("id_sub"));
 		}
 		rs2.last();
+
+        ResultSet rs3 = db.getrs(sql3);
         while(rs3.next()){
             know.setFather_id(rs3.getString("father_id"));
         }
         rs3.last();
-        db.closed();
+        //db.closed();
 
 		if(know!=null){
 		    know.setlList(lList);
