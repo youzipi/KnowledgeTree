@@ -30,6 +30,7 @@
         <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/jquery.ztree.all-3.5.min.js"></script>
+        <script type="text/javascript" src="js/jquery.cookie.js"></script>
         <!--  <script type="text/javascript" src="../../../js/jquery.ztree.excheck-3.5.js"></script>
                                                                                              <script type="text/javascript" src="../../../js/jquery.ztree.exedit-3.5.js"></script>-->
         <script type="text/javascript">
@@ -40,6 +41,12 @@
                 selectedMulti: false
             },
             edit: {
+                drag: {
+                    autoExpandTrigger: true
+                    //prev: dropPrev,
+                    //inner: dropInner,
+                    //next: dropNext
+                },
                 enable: true
                 //editNameSelectAll: true,
                 //showRemoveBtn: showRemoveBtn,
@@ -64,10 +71,59 @@
                 onClick: onClick,
                 beforeRemove: beforeRemove,
                 onRemove: onRemove,
-                beforeRename: beforeRename
+                beforeRename: beforeRename,
+                onExpand: onExpand,
+                onCollapse: onCollapse
+                //beforeDrag: beforeDrag,
+                //beforeDrop: beforeDrop
             }
         };
 
+        function onExpand(event, treeId, treeNode){
+            var cookie = $.cookie("z_tree");
+            console.log("cookie="+cookie);
+            console.log("cookie.length="+cookie.length);
+            var z_tree = null;
+
+            if(cookie){
+                z_tree = JSON.parse(cookie);
+            }
+
+            if(!z_tree){
+                console.log("!z_tree");
+                z_tree = new Array();
+            }
+            console.log("inArray="+jQuery.inArray(treeNode.id, z_tree));
+            if(jQuery.inArray(treeNode.id, z_tree)<0){
+                console.log("push");
+                z_tree.push(treeNode.id);
+            }
+            nodes = $.fn.zTree.getZTreeObj("treeDemo").getNodes();
+           // console.log("tree.getNodes()="+nodes);//[(object,Object),(),()]
+//            node = tree.getNodeByParam('id','test');
+//            tree.expandNode(node,true);
+
+            $.cookie("z_tree", JSON.stringify(z_tree))
+            getcookie();
+        }
+
+        function onCollapse(event, treeId, treeNode){
+            var cookie = $.cookie("z_tree");
+
+            var z_tree = null;
+            if(cookie){
+                z_tree = JSON.parse(cookie);
+            }
+
+            if(!z_tree){
+                z_tree = new Array();
+            }
+            var index = jQuery.inArray(treeNode.id, z_tree);
+
+            z_tree.splice(index, 1);
+
+            $.cookie("z_tree", JSON.stringify(z_tree))
+        }
 
         function filter(treeId, parentNode, childNodes) {
             if (!childNodes) return null;
@@ -192,10 +248,33 @@
             getNodeInfo(treeNode.id);
             //console.log("[onClick]id="+treeNode.id+"\nclickFlag=" + clickFlag);
         }
+        function getcookie(){
+            console.log("get_cookie");
+            console.log(tree.getNodes());//[]
+            var cookie = $.cookie("z_tree");
+            if(cookie){
+                z_tree = JSON.parse(cookie);
+                console.log(z_tree);
+
+                for(var i=0;i<z_tree.length;i++){
+                    //console.log("z_tree[i]="+z_tree[i]);
+                    var node = tree.getNodeByParam('id',z_tree[i]);
+                    //console.log("node="+node);
+                    tree.expandNode(node,true)
+                }
+            }
+        }
 
         $(document).ready(function(){
             $.fn.zTree.init($("#treeDemo"), setting);
-            console.log("tt");
+            console.log("initializing...");
+            tree = $.fn.zTree.getZTreeObj("treeDemo");
+            //console.log(tree.getNodes());//[]
+            console.log(tree.expandAll(true));
+            console.log(tree.getNodeByParam('name','css'));
+
+            //getcookie();
+
             $("#submit").click(
                     function() {
                         var id = $(".idedit").val(),

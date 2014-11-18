@@ -3,5 +3,7 @@
 .classpath
 .project
 *.iml
+*.eml
 build
 out
+*.userlibraries
