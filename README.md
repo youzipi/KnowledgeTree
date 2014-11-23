@@ -8,4 +8,6 @@ KnowledgeTree的后台管理
 #to-do:
 - 添加根节点
 - submit和reset后会刷新的问题
+- 展开cookie中的节点（AsyncSuccess和getcookie）
+        判断是否展开完毕
 - ~~节点小工具的图标错误~~
