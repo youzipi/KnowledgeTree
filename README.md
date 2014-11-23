@@ -8,4 +8,4 @@ KnowledgeTree的后台管理
 #to-do:
 - 添加根节点
 - submit和reset后会刷新的问题
-- 节点小工具的图标错误
+- ~~节点小工具的图标错误~~
