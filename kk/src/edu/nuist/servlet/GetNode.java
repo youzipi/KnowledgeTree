@@ -1,3 +1,5 @@
+package edu.nuist.servlet;
+
 import edu.nuist.knowledge.Knowledge;
 import edu.nuist.knowledge.KnowledgeDBHelper;
 import net.sf.json.JSONArray;
@@ -17,7 +19,7 @@ import java.sql.SQLException;
  * user: youzipi
  * date: 2014/11/16 17:57
  */
-public class getNode extends HttpServlet {
+public class GetNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -66,7 +68,7 @@ public class getNode extends HttpServlet {
     }
 
     public static void main(String[] args) {
-        getNode test = new getNode();
+        GetNode test = new GetNode();
         test.getNodeInfo("1");
     }
 }

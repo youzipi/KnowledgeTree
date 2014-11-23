@@ -1,4 +1,8 @@
+package edu.nuist.servlet;
+
+import edu.nuist.knowledge.Knowledge;
 import edu.nuist.knowledge.KnowledgeDBHelper;
+import net.sf.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,19 +16,21 @@ import java.sql.SQLException;
  * project_name:kk
  * package_name:PACKAGE_NAME
  * user: youzipi
- * date: 2014/11/17 16:27
+ * date: 2014/11/16 17:57
  */
-public class removeNode extends HttpServlet {
+public class SetNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
         String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String content = request.getParameter("content");
 
         int num;
         PrintWriter out = response.getWriter();
-        System.out.println("delete_node");
-        num = deleteNode(id);
+        System.out.println("set_node");
+        num = setNodeInfo(id, name, content);
         System.out.println("num="+num);
         out.print(num);
     }
@@ -34,11 +40,15 @@ public class removeNode extends HttpServlet {
         doPost(req, resp);
     }
 
-    public int deleteNode(String id) {
+    public int setNodeInfo(String id,String name,String content) {
+        JSONObject jObject = new JSONObject();
         try {
-            boolean ok = KnowledgeDBHelper.delete(id);
-            if(ok)
-                return 1;
+            Knowledge know = new Knowledge();
+            know.setId(id);
+            know.setName(name);
+            know.setContent(content);
+            int num = KnowledgeDBHelper.update(know);
+            return num;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,8 +56,7 @@ public class removeNode extends HttpServlet {
     }
 
     public static void main(String[] args) {
-        removeNode test = new removeNode();
-        test.deleteNode("id");
+        SetNode test = new SetNode();
+        //test.setNodeInfo("1");
     }
 }
-

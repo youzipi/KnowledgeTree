@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-  <display-name></display-name>	
+  <display-name></display-name>
   <servlet>  
        <servlet-name>Test</servlet-name>  
        <servlet-class>Test</servlet-class>  
@@ -16,7 +16,7 @@
     <display-name></display-name>
     <servlet>
         <servlet-name>InitTree</servlet-name>
-        <servlet-class>InitTree</servlet-class>
+        <servlet-class>edu.nuist.servlet.InitTree</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitTree</servlet-name>
@@ -24,7 +24,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>getNode</servlet-name>
-        <servlet-class>getNode</servlet-class>
+        <servlet-class>edu.nuist.servlet.GetNode</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>getNode</servlet-name>
@@ -32,7 +32,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>setNode</servlet-name>
-        <servlet-class>setNode</servlet-class>
+        <servlet-class>edu.nuist.servlet.SetNode</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>setNode</servlet-name>
@@ -40,7 +40,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>addNode</servlet-name>
-        <servlet-class>addNode</servlet-class>
+        <servlet-class>edu.nuist.servlet.AddNode</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addNode</servlet-name>
@@ -48,7 +48,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>removeNode</servlet-name>
-        <servlet-class>removeNode</servlet-class>
+        <servlet-class>edu.nuist.servlet.RemoveNode</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>removeNode</servlet-name>

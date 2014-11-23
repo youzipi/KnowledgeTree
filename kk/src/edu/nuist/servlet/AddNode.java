@@ -1,3 +1,4 @@
+package edu.nuist.servlet;
 
 import edu.nuist.knowledge.Knowledge;
 import edu.nuist.knowledge.KnowledgeDBHelper;
@@ -16,7 +17,7 @@ import java.sql.SQLException;
  * user: youzipi
  * date: 2014/11/17 15:23
  */
-public class addNode extends HttpServlet {
+public class AddNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -50,7 +51,7 @@ public class addNode extends HttpServlet {
     }
 
     public static void main(String[] args) {
-        addNode test = new addNode();
+        AddNode test = new AddNode();
         test.createNode("name","pId");
     }
 }

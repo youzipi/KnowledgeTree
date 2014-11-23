@@ -52,10 +52,10 @@ public  class Knowledge {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public static LinkedList<String> getlList() {
+	public LinkedList<String> getlList() {
 		return lList;
 	}
-	public static void setlList(LinkedList<String> lList) {
+	public void setlList(LinkedList<String> lList) {
 		Knowledge.lList = lList;
 	}
 }
