@@ -1,15 +1,19 @@
-java.sql.SQLException: Operation not allowed after ResultSet closed
+﻿###java.sql.SQLException: Operation not allowed after ResultSet closed
 
 http://blog.csdn.net/sku0923/article/details/1722370
 
-��cookie֮ǰû����
+加cookie之前没出现
 
 
 java.sql.SQLException: After end of result set 
 
 
 
-com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections
+###com.mysql.jdbc.exceptions.jdbc4.MySQLNonTransientConnectionException: Data source rejected establishment of connection,  message from server: "Too many connections
 
 
-mysql/my.ini max-connections=500;
+mysql/my.ini max-connections=1000;需重启服务器
+
+
+
+cookie加载时，isparent有时会出错

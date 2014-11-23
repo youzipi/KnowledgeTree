@@ -43,7 +43,9 @@ public class KnowledgeDBHelper {
 
         ResultSet rs3 = db.getrs(sql3);
         while(rs3.next()){
-            know.setFather_id(rs3.getString("father_id"));
+            if (know != null) {
+                know.setFather_id(rs3.getString("father_id"));
+            }
         }
         rs3.last();
         //db.closed();
