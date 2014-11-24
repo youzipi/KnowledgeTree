@@ -28,7 +28,7 @@ public class InitTree extends HttpServlet {
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-
+        response.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
         System.out.println("InitTree");
         System.out.println("name="+request.getParameter("name"));

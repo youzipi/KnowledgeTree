@@ -41,6 +41,7 @@ public class DB {
         try{
             conn=getConnection();
             stmt=conn.createStatement();
+            stmt.execute("set names utf8;");
         }catch(Exception e){e.printStackTrace(System.err);}
         return stmt;
     }
@@ -50,6 +51,7 @@ public class DB {
         try{
             conn=getConnection();
             stmt=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            stmt.execute("set names utf8;");
         }catch(Exception e){e.printStackTrace(System.err);}
         return stmt;
     }

@@ -23,6 +23,7 @@ public class GetNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
 
 
         //String method = request.getParameter("method");

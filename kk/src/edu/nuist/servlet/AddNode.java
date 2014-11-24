@@ -21,7 +21,7 @@ public class AddNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-
+        response.setCharacterEncoding("UTF-8");
         String name = request.getParameter("name");
         String pId = request.getParameter("pId");
 

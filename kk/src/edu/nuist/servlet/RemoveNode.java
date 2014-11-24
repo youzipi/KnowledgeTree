@@ -20,7 +20,7 @@ public class RemoveNode extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-
+        response.setCharacterEncoding("UTF-8");
         String id = request.getParameter("id");
 
         int num;

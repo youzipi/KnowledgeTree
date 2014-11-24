@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
-       <link href="css/bootstrap.min.css" rel="stylesheet">
+<head>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <meta charset="UTF-8">
     <title></title>
     <style>
@@ -25,7 +25,7 @@
             height: 100%;
             background: #ffffff;
         }
-        .ztree li span.button.add {margin-right:2px; background-position:-143px 0px; vertical-align:top; *vertical-align:middle}
+        .ztree li span.button.add {margin-right:2px; background-position:-143px 0; vertical-align:top; *vertical-align:middle}
     </style>
         <!--<link rel="stylesheet" href="css/demo.css" type="text/css">-->
         <link rel="stylesheet" href="css/zTreeStyle/zTreeStyle.css" type="text/css">
@@ -33,7 +33,6 @@
         <script type="text/javascript" src="js/jquery.ztree.all-3.5.min.js"></script>
         <script type="text/javascript" src="js/jquery.cookie.js"></script>
         <script type="text/javascript" src="js/jquery.ztree.exhide-3.5.min.js"></script>
-
         <script type="text/javascript">
         var setting = {
             view: {
@@ -42,16 +41,10 @@
                 selectedMulti: false
             },
             edit: {
-                drag: {
-                    autoExpandTrigger: true
-                    //prev: dropPrev,
-                    //inner: dropInner,
-                    //next: dropNext
-                },
+//                drag: {
+//                    autoExpandTrigger: false
+//                },
                 enable: true
-                //editNameSelectAll: true,
-                //showRemoveBtn: showRemoveBtn,
-               // showRenameBtn: showRenameBtn
             },
             data : {
                 simpleData: {
@@ -76,8 +69,6 @@
                 onExpand: onExpand,
                 onCollapse: onCollapse,
                 onAsyncSuccess:onAsyncSuccess
-                //beforeDrag: beforeDrag,
-                //beforeDrop: beforeDrop
             }
         };
 
@@ -93,13 +84,10 @@
                         hiden_node++;
                     }
                 }
-            //var index = jQuery.inArray(treeNode.id, z_tree);
-            //z_tree.splice(index, 1);
             return hiden_node;
         }
 
         function onAsyncSuccess(event, treeId, treeNode, msg) {
-
             if(curAsyncCount != 0){
                 zTree = $.fn.zTree.getZTreeObj("treeDemo");
                 var cookie = $.cookie("z_tree");
@@ -108,17 +96,17 @@
                     z_tree = JSON.parse(cookie);
                     console.log("z_tree=" + z_tree);
                 }
-
-                var i = 5,hide = 0;//最大循环次数
-//                do{
-                    hide = getcookie(z_tree);
-//                    i--;
-//                }while((hide != 0) && (i != 0));
-                curAsyncCount--;
+                var hide = getcookie(z_tree);
+                if(hide == 0){
+                    curAsyncCount = 0;
+                }
+                else{
+                    curAsyncCount--;
+                }
             }
             console.log("curAsyncCount="+curAsyncCount);
         }
-        var curAsyncCount = 5;
+        var curAsyncCount = 5;//最大循环次数
         function onExpand(event, treeId, treeNode){
             var cookie = $.cookie("z_tree");
             //console.log("cookie.length="+cookie.length);
@@ -131,17 +119,12 @@
             if(!z_tree){
                 console.log("!z_tree");
                 z_tree = [];
-                //z_tree.push("null");
             }
             console.log("inArray="+jQuery.inArray(treeNode.id, z_tree));
             if(jQuery.inArray(treeNode.id, z_tree)<0){
                 console.log("push");
                 z_tree.push(treeNode.id);
             }
-            nodes = $.fn.zTree.getZTreeObj("treeDemo").getNodes();
-           // console.log("tree.getNodes()="+nodes);//[(object,Object),(),()]
-//            node = tree.getNodeByParam('id','test');
-//            tree.expandNode(node,true);
 
             $.cookie("z_tree", JSON.stringify(z_tree));
             console.log("cookie="+cookie);
@@ -182,9 +165,9 @@
                 dataType: 'json',
                 success: function (node) {
                     console.log(node);
-                    $(".idedit").val(node.id);
-                    $(".nameedit").val(node.name);
-                    $(".contentedit").val(node.content);
+                    $(".idedit").empty().val(node.id);
+                    $(".nameedit").empty().val(node.name);
+                    $(".contentedit").empty().val(node.content);
                 }
             });
         }
@@ -283,27 +266,21 @@
         $(document).ready(function(){
             $.fn.zTree.init($("#treeDemo"), setting);
             console.log("initializing...");
-            tree = $.fn.zTree.getZTreeObj("treeDemo");
-            //tree.refresh();
-            console.log(tree.getNodes());//[]
-            //console.log(tree.expandAll(true));
-            //console.log(tree.getNodeByParam('name','css'));
-            //if(cookie){
-                //if(confirm("恢复之前状态？")){
-                    //getcookie();
-                //}
-            //}
+
             $("#submit").click(
                     function() {
                         var id = $(".idedit").val(),
                         name = $(".nameedit").val(),
                         content = $(".contentedit").val();
                         setNodeInfo(id,name,content);
+                        return false;//阻止刷新
                     }
             );
-            $("reset").click(
+            $("#reset").click(
                     function(){
+                        console.log("reset_clicked");
                         getNodeInfo($(".idedit").val());
+                        return false;//
                     }
             )
         });
@@ -328,10 +305,11 @@
                <label for="">id</label>
                <input type="text" class="form-control idedit" placeholder="id" disabled>
            </div>
-        <!--<button id="submit" class="btn btn-default">submit</button>-->
-        <!--<button id="reset" class="btn btn-default">Cancel</button>-->
-           <input type='button' id="submit" class="btn btn-default" value="Submit" />
-           <input type='button' id="reset" class="btn btn-default" value="Cancel" />
+        <button id="submit" class="btn btn-default">Submit</button>
+        <button id="reset" class="btn btn-default">Reset</button>
+           <!--<input type='button' id="submit" class="btn btn-default" value="Submit" />-->
+           <!--<input type='button' id="reset" class="btn btn-default" value="Reset" />-->
+           <br />
            <strong></strong>
         </form>
     </div>
